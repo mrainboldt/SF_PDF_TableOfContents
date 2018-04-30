@@ -1,0 +1,45 @@
+<apex:page standardController="Account" extensions="AccountExtension" showHeader="false" sidebar="false" renderAs="PDF">
+	<apex:stylesheet value="{!URLFOR($Resource.PDFStyleSheet, '')}"/>
+
+    <body>
+    <!--PAGE 1-->
+    <div style="text-align: center;">
+    	<apex:outputText value="{!Account.Name}"
+    					escape="false"/>    
+    </div>
+	<div style="page-break-after: always;"/>
+	<!--END OF PAGE 1-->
+	<!--PAGE 2-->
+	<div id="tableOfContents">
+		<apex:outputText value="Table of Contents"
+						styleClass="heading" />
+
+		<div id="tableOfContentsTable">
+			<apex:repeat value="{!tableOfContents}" var="toc">
+				<table  style="width:100%;">
+				<tr >
+					<td><a href="{!'#' + toc.elementId}" style="display: inline-block;white-space: nowrap;">{!toc.title}</a></td>
+					<td style="overflow: hidden;white-space: nowrap;">
+						<apex:outputText value="{!toc.fill}" escape="false"/>
+					</td>
+					<td><a href="{!'#' + toc.elementId}" class="pageNumber" style="float:right;display: inline-block;"></a></td>
+				</tr>
+				</table>
+				<apex:repeat value="{!toc.subLines}" var="sub">
+					<table style="padding: .2em 0 .2em 2em; width:100%;">
+					<tr >
+					<td><a href="{!'#' + sub.elementId}" style="display: inline-block;white-space: nowrap;">{!sub.title}</a></td>
+					<td style="overflow: hidden;white-space: nowrap;">
+						<apex:outputText value="{!sub.fill}" escape="false"/>
+					</td>
+					<td><a href="{!'#' + sub.elementId}" class="pageNumber" style="float:right;display: inline-block;"></a></td>
+				</tr>
+				</table>
+				</apex:repeat>
+			</apex:repeat>
+		</div>
+	</div>
+	<div style="page-break-after: always;"/>
+	<!--END OF PAGE 2-->
+	</body>
+</apex:page>
